@@ -10,7 +10,7 @@ import org.springframework.shell.standard.ShellOption;
 public class CycleCommands {
 
 	@ShellMethod(group = "cycle", value = "Ejercicio de ciclos implicitos")
-	public String[] doFlatMap(@ShellOption String[] params) {
+	private String[] doFlatMap(@ShellOption String[] params) {
 		return Arrays.stream(params)
 				.map(item -> item.split("\\."))
 				.flatMap(Arrays::stream) // Is the same as `x -> Arrays.stream(x)`
@@ -18,7 +18,7 @@ public class CycleCommands {
 	}
 
 	@ShellMethod(group = "cycle", value = "Ejercicio de SAM y lambda")
-	public int doMultPairs(@ShellOption String[] params) {
+	private int doMultPairs(@ShellOption String[] params) {
 		return Arrays.stream(params)
 				.mapToInt(Integer::valueOf) // Is the same as `item -> Integer.valueOf(item)`
 				.filter(x -> x % 2 == 0)

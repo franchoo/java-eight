@@ -2,9 +2,11 @@ package co.chlg.javaimpdec.shell;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static co.chlg.javaimpdec.DeclarativeUtils.streamInput;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -29,10 +31,9 @@ public class CycleCommandsTest {
 	@Test
 	public void disassembleWords() {
 		// Given...
-		String[] input = { "www.google.com.co", "application.device", "frank.d.cardona", "192.168.10.12" };
+		Stream<String> input = Stream.of("www.google.com.co", "application.device", "frank.d.cardona", "192.168.10.12");
 		// When...
-		Object result = shell.evaluate(
-			() -> "do-flat-map " + String.join(",", input));
+		Object result = shell.evaluate(streamInput("do-flat-map", input));
 		// Then...
 		assertEquals(13, ((String[]) result).length);
 		log.info(Arrays.asList((String[]) result));
@@ -42,12 +43,9 @@ public class CycleCommandsTest {
 	public void filterPairsAndMultiply() {
 		// Given...
 		// String [] input = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-		String[] input = IntStream.rangeClosed(1, 10)
-			.mapToObj(String::valueOf) // Is the same as `x -> String.valueOf(x)`
-			.toArray(String[]::new);   // Is the same as `size -> new String[size]`
+		Stream<Integer> input = IntStream.rangeClosed(1, 10).boxed();
 		// When...
-		Object result = shell.evaluate(
-			() -> "do-mult-pairs " + String.join(",", input));
+		Object result = shell.evaluate(streamInput("do-mult-pairs", input));
 		// Then...
 		assertEquals(3840, result);
 	}

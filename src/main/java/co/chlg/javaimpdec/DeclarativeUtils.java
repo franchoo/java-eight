@@ -13,7 +13,10 @@ public final class DeclarativeUtils {
     }
 
     public static Input streamInput(String method, Stream<?> input) {
-        return () -> method + " " + input.map(String::valueOf).reduce((a, b) -> String.join(",", a, b)).orElse("");
+        String params = input.map(String::valueOf)
+                .reduce((a, b) -> String.join(",", a, b))
+                .orElse("");
+        return () -> method + ' ' + params;
     }
 
 }
