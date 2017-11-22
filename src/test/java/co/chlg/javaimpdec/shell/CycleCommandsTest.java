@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import co.chlg.javaimpdec.TestApplicationRunner;
 @RunWith(SpringRunner.class)
 @Import(TestApplicationRunner.class)
 public class CycleCommandsTest {
+	private static final Logger log = Logger.getLogger(CycleCommandsTest.class);
 
 	@Autowired
 	private Shell shell;
@@ -37,7 +39,7 @@ public class CycleCommandsTest {
 		});
 		// Then...
 		assertEquals(13, ((String[]) result).length);
-		System.out.println(Arrays.asList((String[]) result));
+		log.info(Arrays.asList((String[]) result));
 	}
 
 }
