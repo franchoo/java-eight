@@ -10,7 +10,7 @@ import org.springframework.shell.standard.ShellOption;
 public class CycleCommands {
 
 	@ShellMethod(group = "cycle", value = ".")
-	public String[] doFlatMap(@ShellOption(arity = 4) String[] params) {
+	public String[] doFlatMap(@ShellOption String[] params) {
 		// Try to use https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#flatMap-java.util.function.Function-
 		// TODO: Implement multiple string splitting into array...
 		return null;
