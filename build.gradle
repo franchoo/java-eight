@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "co.chlg"
-version = "1.2"
+version = "1.2.1"
 sourceCompatibility = 1.8
 
 repositories {
