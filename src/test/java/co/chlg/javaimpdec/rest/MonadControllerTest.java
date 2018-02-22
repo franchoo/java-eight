@@ -58,4 +58,39 @@ public class MonadControllerTest {
     assertThat(resp2.getBody().get("22"), is(17711)); // Fibonacci number in 22th position!
   }
 
+  @Test
+  @SuppressWarnings("unchecked")
+  public void getCountsFromMillionsRandom() {
+    // Given...
+    final String LUCKY_NUM = "13";
+    URI uri = url.resolve("map-count/" + LUCKY_NUM + "/size/" + 2 + "/from/" + (10000));
+    // When...
+    ResponseEntity<Map> response = testRest.getForEntity(uri, Map.class);
+    // Then...
+    assertThat(response.getStatusCode(), is(OK));
+    assertThat(response.getHeaders().getContentType().toString(),
+        startsWith(APPLICATION_JSON_VALUE));
+    assertThat(response.getBody(), notNullValue());
+    assertThat((Set<String>) response.getBody().keySet(), hasItem(LUCKY_NUM));
+    assertTrue((int) response.getBody().get(LUCKY_NUM) > 75);
+    log.info(response.getBody());
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  public void getAgeFromNamesLength() {
+    // Given...
+    final String NAME = "Maria Gutierrez";
+    URI uri = url.resolve("map-age/".concat(NAME.replace(" ", "%20")));
+    // When...
+    ResponseEntity<Map> response = testRest.getForEntity(uri, Map.class);
+    // Then...
+    assertThat(response.getStatusCode(), is(OK));
+    assertThat(response.getHeaders().getContentType().toString(),
+        startsWith(APPLICATION_JSON_VALUE));
+    assertThat(response.getBody(), notNullValue());
+    assertThat((Set<String>) response.getBody().keySet(), hasItem(NAME));
+    assertThat(response.getBody().get(NAME), is(59)); // letter count of each name!
+  }
+
 }
