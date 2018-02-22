@@ -8,6 +8,7 @@ import org.springframework.shell.Input;
 /**
  * Class for declarative utility functions.
  */
+@SuppressWarnings("WeakerAccess")
 public final class DeclarativeUtils {
 
   private DeclarativeUtils() {
@@ -17,20 +18,17 @@ public final class DeclarativeUtils {
     return (a, b) -> String.join(delimiter, a, b);
   }
 
-  public static String getParams(Stream<?> input) {
+  public static String getParam(Stream<?> input) {
     return input.map(String::valueOf)
         .reduce(joinBy(","))
         .orElse("");
   }
 
-  public static Input streamInput(String method, Stream<?> input) {
-    String params = getParams(input);
-    return () -> method + ' ' + params;
-  }
-
-  public static Input streamInputs(String method, Stream<?>... inputs) {
-    String command = Arrays.stream(inputs).map(DeclarativeUtils::getParams)
+  public static Input inputFrom(String method, Stream<?>... inputs) {
+    String command = Arrays.stream(inputs)
+        .map(DeclarativeUtils::getParam)
         .reduce(method, joinBy(" "));
+    // Consume the Stream outside the lambda, to avoid IllegalStateException
     return () -> command;
   }
 
