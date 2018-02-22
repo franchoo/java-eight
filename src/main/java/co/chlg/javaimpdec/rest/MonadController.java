@@ -22,4 +22,16 @@ public class MonadController {
             .skip(num).findFirst().map(Pair::getLeft).orElse(null));
   }
 
+  @GetMapping("/map-count/{luckyNum}/size/{exp}/from/{qty}")
+  private Map<Integer, Integer> getMappingNumRandomsCount(@PathVariable("luckyNum") int luckyNum,
+      @PathVariable("exp") int exp, @PathVariable("qty") int qty) {
+    return null;
+  }
+
+  @GetMapping("/map-age/{fullName}")
+  private Map<String, Integer> getMappingNameAge(@PathVariable("fullName") String fullName) {
+    // TODO: sequential & reduce will be useful
+    return null;
+  }
+
 }

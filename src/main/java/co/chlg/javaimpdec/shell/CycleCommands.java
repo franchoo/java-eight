@@ -1,8 +1,9 @@
 package co.chlg.javaimpdec.shell;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toSet;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -18,6 +19,17 @@ public class CycleCommands {
         .flatMap(Arrays::stream) // Is the same as `x -> Arrays.stream(x)`
         //.toArray(String[]::new); // Is the same as `size -> new String[size]`
         .collect(toSet());
+  }
+
+  @ShellMethod(group = "cycle", value = "Ejercicio de comparación")
+  private List<String> doNameScores(@ShellOption String nameA, @ShellOption String nameB,
+      @ShellOption List<Long> scoresA, @ShellOption List<Long> scoresB) {
+    return null;
+  }
+
+  @ShellMethod(group = "cycle", value = "Ejercicio de ordenamiento")
+  private List<String> doSortLastnames(@ShellOption List<String> people) {
+    return null;
   }
 
 }
