@@ -1,7 +1,12 @@
 package co.chlg.javaimpdec.rest;
 
+import static java.lang.Math.pow;
+import static java.util.Arrays.stream;
 import static java.util.Collections.singletonMap;
+import static java.util.function.Predicate.isEqual;
+import static java.util.stream.Stream.generate;
 import static java.util.stream.Stream.iterate;
+import static org.apache.commons.lang3.RandomUtils.nextInt;
 
 import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,13 +30,17 @@ public class MonadController {
   @GetMapping("/map-count/{luckyNum}/size/{exp}/from/{qty}")
   private Map<Integer, Integer> getMappingNumRandomsCount(@PathVariable("luckyNum") int luckyNum,
       @PathVariable("exp") int exp, @PathVariable("qty") int qty) {
-    return null;
+    return singletonMap(luckyNum,
+        (int) generate(() -> nextInt(0, (int) pow(10, exp))).limit(qty)
+            .filter(isEqual(luckyNum))
+            .count());
   }
 
   @GetMapping("/map-age/{fullName}")
   private Map<String, Integer> getMappingNameAge(@PathVariable("fullName") String fullName) {
     // TODO: sequential & reduce will be useful
-    return null;
+    return singletonMap(fullName,
+        stream(fullName.split(" ")).mapToInt(String::length).reduce(0, (a, b) -> a * 10 + b));
   }
 
 }
