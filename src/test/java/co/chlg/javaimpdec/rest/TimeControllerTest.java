@@ -7,6 +7,8 @@ import static org.springframework.http.HttpStatus.OK;
 import co.chlg.javaimpdec.TestApplicationRunner;
 import java.net.URI;
 import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,12 +56,12 @@ public class TimeControllerTest {
   @SuppressWarnings("unchecked")
   public void getDayAfter10Hours() {
     // Given...
-    URI uri = url.resolve("add-hours-return-day/" + 10);
+    URI uri = url.resolve("add-hours-return-day/" + 20);
     // When...
     ResponseEntity<Integer> response = testRest.getForEntity(uri, Integer.class);
     // Then...
     assertThat(response.getStatusCode(), is(OK));
-    assertThat(response.getBody(), is(7));
+    assertThat(response.getBody(), is(LocalDate.now().plusDays(1).getDayOfMonth()));
     log.info(response.getBody());
   }
 
