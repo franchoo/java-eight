@@ -3,6 +3,8 @@ package co.chlg.javaimpdec.shell;
 import static java.util.stream.Collectors.toSet;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.springframework.shell.standard.ShellComponent;
@@ -24,7 +26,10 @@ public class CycleCommands {
   @ShellMethod(group = "cycle", value = "Ejercicio de comparación")
   private List<String> doNameScores(@ShellOption String nameA, @ShellOption String nameB,
       @ShellOption List<Long> scoresA, @ShellOption List<Long> scoresB) {
-    return null;
+    List<String> res = new LinkedList<>();
+    Iterator<Long> itB = scoresB.iterator();
+    scoresA.forEach(a -> res.add(a > itB.next() ? nameA : nameB));
+    return res;
   }
 
   @ShellMethod(group = "cycle", value = "Ejercicio de ordenamiento")
