@@ -41,10 +41,10 @@ public class LambdaCommandsTest {
   }
 
   @Test
-  public void onlyTwoEnter() {
+  public void validateNames() {
     // Given...
     Stream<String> input = Stream
-        .of("");
+        .of("Jonny", "Milena", "Franklin", "Jorge", "Robert", "Luis", "Miguel", "Robert", "Milena", "Luisa");
     // When...
     Object result = shell.evaluate(inputFrom("do-process-names", input));
     // Then...
