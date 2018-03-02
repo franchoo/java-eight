@@ -38,7 +38,6 @@ public class MonadController {
 
   @GetMapping("/map-age/{fullName}")
   private Map<String, Integer> getMappingNameAge(@PathVariable("fullName") String fullName) {
-    // TODO: sequential & reduce will be useful
     return singletonMap(fullName,
         stream(fullName.split(" ")).mapToInt(String::length).reduce(0, (a, b) -> a * 10 + b));
   }

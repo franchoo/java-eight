@@ -1,12 +1,12 @@
 package co.chlg.javaimpdec.shell;
 
-import static co.chlg.javaimpdec.DeclarativeUtils.inputFrom;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static co.chlg.javaimpdec.DeclarativeUtils.*;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 import co.chlg.javaimpdec.TestApplicationRunner;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import org.apache.log4j.Logger;
@@ -42,14 +42,28 @@ public class LambdaCommandsTest {
 
   @Test
   public void validateNames() {
-    // Given...
-    Stream<String> input = Stream
-        .of("Jonny", "Milena", "Franklin", "Jorge", "Robert", "Luis", "Miguel", "Robert", "Milena", "Luisa");
-    // When...
-    Object result = shell.evaluate(inputFrom("do-process-names", input));
-    // Then...
-    assertThat(result, instanceOf(List.class));
-    log.debug(result);
+    // Simulate a concurrence...
+    List<Thread> threads = IntStream.rangeClosed(1, 9)
+        .mapToObj(x -> new Thread(() -> {
+          // Given...
+          Stream<String> input = Stream.of("Bernard" + x, "Eliza" + x, "Hilda" + x, "Karmen" + x,
+              "Norman" + x, "Pablo" + x, "Sergio" + x, "Vanessa" + x, "Yadira" + x);
+          // When...
+          Object result = shell.evaluate(inputFrom("do-process-names", input));
+          // Then...
+          assertThat(result, instanceOf(String.class));
+          log.info(result);
+        }))
+        .peek(Thread::start)
+        .collect(Collectors.toList());
+    // Waiting for all threads to die...
+    threads.forEach(t -> {
+      try {
+        t.join();
+      } catch (InterruptedException e) {
+        log.warn("Interrupted " + t.getName(), e);
+      }
+    });
   }
 
 }

@@ -7,7 +7,6 @@ import static org.springframework.http.HttpStatus.OK;
 import co.chlg.javaimpdec.TestApplicationRunner;
 import java.net.URI;
 import java.time.DayOfWeek;
-import java.time.Instant;
 import java.time.LocalDate;
 import org.apache.log4j.Logger;
 import org.junit.Before;
