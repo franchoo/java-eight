@@ -78,4 +78,17 @@ public class TimeControllerTest {
     log.info(response.getBody());
   }
 
+  @Test
+  @SuppressWarnings("unchecked")
+  public void getMinus10BusinessDays() {
+    // Given...
+    URI uri = url.resolve("add-business-days/" + -10 + "/to/" + 2018 + "/" + 1 + "/" + 7);
+    // When...
+    ResponseEntity<String> response = testRest.getForEntity(uri, String.class);
+    // Then...
+    assertThat(response.getStatusCode(), is(OK));
+    assertThat(response.getBody(), equalTo("2017-12-25"));
+    log.info(response.getBody());
+  }
+
 }

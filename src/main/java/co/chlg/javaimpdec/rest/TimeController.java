@@ -1,6 +1,11 @@
 package co.chlg.javaimpdec.rest;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import static java.time.temporal.TemporalAdjusters.firstInMonth;
+import static java.time.temporal.TemporalAdjusters.nextOrSame;
+import static java.time.temporal.TemporalAdjusters.ofDateAdjuster;
+import static java.time.temporal.TemporalAdjusters.previousOrSame;
 
 import java.time.DayOfWeek;
 import java.time.Duration;
@@ -39,6 +44,18 @@ public class TimeController {
     return LocalDate.of(year, month, 1)
         .with(firstInMonth(DayOfWeek.valueOf(dayOfWeek)))
         .getDayOfMonth();
+  }
+
+  @GetMapping("/add-business-days/{quantity}/to/{year}/{month}/{day}")
+  private String getBusinessDate(@PathVariable("quantity") int quantity,
+      @PathVariable("year") int year, @PathVariable("month") int month,
+      @PathVariable("day") int day) {
+    return LocalDate.of(year, month, day).with(ofDateAdjuster(date -> {
+      LocalDate baseDate = quantity > 0 ? date.with(previousOrSame(DayOfWeek.MONDAY))
+          : quantity < 0 ? date.with(nextOrSame(DayOfWeek.FRIDAY)) : date;
+      int businessDays = quantity + min(max(baseDate.until(date).getDays(), -4), 4);
+      return baseDate.plusWeeks(businessDays / 5).plusDays(businessDays % 5);
+    })).toString();
   }
 
 }
